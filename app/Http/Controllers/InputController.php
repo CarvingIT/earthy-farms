@@ -7,59 +7,49 @@ use Illuminate\Http\Request;
 
 class InputController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $inputs = Input::latest()->get();
+        return view('inputs.index', compact('inputs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('inputs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'unit' => 'required|string|max:50',
+        ]);
+
+        Input::create($validated);
+
+        return redirect()->route('inputs.index')->with('success', 'Input created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Input $input)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Input $input)
     {
-        //
+        return view('inputs.edit', compact('input'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Input $input)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'unit' => 'required|string|max:50',
+        ]);
+
+        $input->update($validated);
+
+        return redirect()->route('inputs.index')->with('success', 'Input updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Input $input)
     {
-        //
+        $input->delete();
+        return redirect()->route('inputs.index')->with('success', 'Input deleted successfully.');
     }
 }

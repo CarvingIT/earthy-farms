@@ -3,63 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crop;
+use App\Models\Farmer;
 use Illuminate\Http\Request;
 
 class CropController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $crops = Crop::with('plot.farmer')->latest()->get();
+        return view('crops.index', compact('crops'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $farmers = Farmer::with('plots')->get();
+        return view('crops.create', compact('farmers'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'plot_id' => 'required|exists:plots,id',
+            'name' => 'required|string|max:255',
+            'variety' => 'required|string|max:255',
+            'sowing_date' => 'required|date',
+            'harvest_date' => 'required|date|after_or_equal:sowing_date',
+        ]);
+
+        Crop::create($validated);
+
+        return redirect()->route('crops.index')->with('success', 'Crop planted successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Crop $crop)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Crop $crop)
     {
-        //
+        $farmers = Farmer::with('plots')->get();
+        return view('crops.edit', compact('crop', 'farmers'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Crop $crop)
     {
-        //
+        $validated = $request->validate([
+            'plot_id' => 'required|exists:plots,id',
+            'name' => 'required|string|max:255',
+            'variety' => 'required|string|max:255',
+            'sowing_date' => 'required|date',
+            'harvest_date' => 'required|date|after_or_equal:sowing_date',
+        ]);
+
+        $crop->update($validated);
+
+        return redirect()->route('crops.index')->with('success', 'Crop updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Crop $crop)
     {
-        //
+        $crop->delete();
+        return redirect()->route('crops.index')->with('success', 'Crop deleted successfully.');
     }
 }

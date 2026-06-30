@@ -3,63 +3,63 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supply;
+use App\Models\Farmer;
+use App\Models\Input;
 use Illuminate\Http\Request;
 
 class SupplyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $supplies = Supply::with(['crop.plot.farmer', 'input'])->latest()->get();
+        return view('supplies.index', compact('supplies'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $farmers = Farmer::with('plots.crops')->get();
+        $inputs = Input::all();
+        return view('supplies.create', compact('farmers', 'inputs'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'crop_id' => 'required|exists:crops,id',
+            'input_id' => 'required|exists:inputs,id',
+            'quantity' => 'required|numeric|min:0.01',
+            'loading_date' => 'required|date',
+        ]);
+
+        Supply::create($validated);
+
+        return redirect()->route('supplies.index')->with('success', 'Supply recorded successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Supply $supply)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Supply $supply)
     {
-        //
+        $farmers = Farmer::with('plots.crops')->get();
+        $inputs = Input::all();
+        return view('supplies.edit', compact('supply', 'farmers', 'inputs'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Supply $supply)
     {
-        //
+        $validated = $request->validate([
+            'crop_id' => 'required|exists:crops,id',
+            'input_id' => 'required|exists:inputs,id',
+            'quantity' => 'required|numeric|min:0.01',
+            'loading_date' => 'required|date',
+        ]);
+
+        $supply->update($validated);
+
+        return redirect()->route('supplies.index')->with('success', 'Supply updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Supply $supply)
     {
-        //
+        $supply->delete();
+        return redirect()->route('supplies.index')->with('success', 'Supply deleted successfully.');
     }
 }

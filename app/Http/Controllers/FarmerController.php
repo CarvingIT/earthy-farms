@@ -7,59 +7,51 @@ use Illuminate\Http\Request;
 
 class FarmerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $farmers = Farmer::withCount('plots')->latest()->get();
+        return view('farmers.index', compact('farmers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('farmers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'address' => 'required|string',
+        ]);
+
+        Farmer::create($validated);
+
+        return redirect()->route('farmers.index')->with('success', 'Farmer created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Farmer $farmer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Farmer $farmer)
     {
-        //
+        return view('farmers.edit', compact('farmer'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Farmer $farmer)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'address' => 'required|string',
+        ]);
+
+        $farmer->update($validated);
+
+        return redirect()->route('farmers.index')->with('success', 'Farmer updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Farmer $farmer)
     {
-        //
+        $farmer->delete();
+        return redirect()->route('farmers.index')->with('success', 'Farmer deleted successfully.');
     }
 }
