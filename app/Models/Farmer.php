@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Farmer extends Model
 {
+    protected $fillable = ['name', 'location', 'address'];
+
     public function plots(): HasMany
     {
         return $this->hasMany(Plot::class);
