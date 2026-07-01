@@ -11,7 +11,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l-.707-.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </span>
-                        <span class="text-lg font-bold tracking-tight text-neutral-900">Earthy <span class="text-emerald-600 font-semibold">Farms</span></span>
+                        <span class="text-lg font-bold tracking-tight text-neutral-900">ECSPL <span class="text-emerald-600 font-semibold">Farms</span></span>
                     </a>
                 </div>
 

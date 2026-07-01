@@ -5,7 +5,7 @@
             <!-- Header section -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900">Earthy Farms</h1>
+                    <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900">ECSPL Farms</h1>
                     <p class="text-sm text-neutral-500 mt-1">Real-time overview of your agricultural network, soil health, and crop logs.</p>
                 </div>
                 <div>
