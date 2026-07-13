@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plot extends Model
 {
-    protected $fillable = ['farmer_id', 'name', 'area'];
+    protected $fillable = ['farmer_id', 'name', 'area', 'gps'];
 
     public function farmer(): BelongsTo
     {

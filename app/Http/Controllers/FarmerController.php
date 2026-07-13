@@ -22,7 +22,7 @@ class FarmerController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
             'address' => 'required|string',
         ]);
 
@@ -40,7 +40,7 @@ class FarmerController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
             'address' => 'required|string',
         ]);
 

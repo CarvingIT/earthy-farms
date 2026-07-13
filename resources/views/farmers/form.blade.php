@@ -8,12 +8,12 @@
     @enderror
 </div>
 
-<!-- GPS Location -->
+<!-- Contact Number -->
 <div>
-    <label for="location" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider">GPS Location (Coordinates)</label>
-    <input id="location" type="text" name="location" value="{{ old('location', $farmer->location ?? '') }}" required placeholder="e.g. 19.9975, 73.7898"
+    <label for="contact_number" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider">Contact Number</label>
+    <input id="contact_number" type="text" name="contact_number" value="{{ old('contact_number', $farmer->contact_number ?? '') }}" required placeholder="e.g. +91 98765 00001"
            class="mt-1.5 block w-full rounded-xl border-neutral-200 shadow-sm text-sm focus:border-neutral-500 focus:ring-neutral-500" />
-    @error('location')
+    @error('contact_number')
         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
     @enderror
 </div>

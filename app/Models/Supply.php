@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Supply extends Model
 {
-    protected $fillable = ['crop_id', 'input_id', 'quantity', 'loading_date'];
+    protected $fillable = ['crop_id', 'input_id', 'quantity', 'loading_date', 'note'];
 
     public function crop(): BelongsTo
     {

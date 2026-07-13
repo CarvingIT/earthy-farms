@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Observation;
 use App\Models\Farmer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ObservationController extends Controller
 {
@@ -26,7 +27,12 @@ class ObservationController extends Controller
             'crop_id' => 'required|exists:crops,id',
             'observation_date' => 'required|date',
             'observation' => 'required|string',
+            'photo' => 'nullable|image|max:10240',
         ]);
+
+        if ($request->hasFile('photo')) {
+            $validated['photo_path'] = $request->file('photo')->store('observations', 'public');
+        }
 
         Observation::create($validated);
 
@@ -45,7 +51,15 @@ class ObservationController extends Controller
             'crop_id' => 'required|exists:crops,id',
             'observation_date' => 'required|date',
             'observation' => 'required|string',
+            'photo' => 'nullable|image|max:10240',
         ]);
+
+        if ($request->hasFile('photo')) {
+            if ($observation->photo_path) {
+                Storage::disk('public')->delete($observation->photo_path);
+            }
+            $validated['photo_path'] = $request->file('photo')->store('observations', 'public');
+        }
 
         $observation->update($validated);
 
@@ -54,6 +68,9 @@ class ObservationController extends Controller
 
     public function destroy(Observation $observation)
     {
+        if ($observation->photo_path) {
+            Storage::disk('public')->delete($observation->photo_path);
+        }
         $observation->delete();
         return redirect()->route('observations.index')->with('success', 'Observation deleted successfully.');
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('crop_id');
             $table->date('observation_date');
             $table->text('observation');
+            $table->string('photo_path')->nullable();
             $table->timestamps();
         });
     }

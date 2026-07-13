@@ -51,7 +51,7 @@
                         this.selectedCropId = '';
                     }
                  }">
-                <form method="POST" action="{{ route('observations.store') }}" class="space-y-4">
+                <form method="POST" action="{{ route('observations.store') }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
                     <!-- Farmer -->
@@ -109,6 +109,17 @@
                         <textarea id="observation" name="observation" rows="4" required placeholder="e.g. Tillering stage looking excellent. Minor incidence of stem borer; sprayed neem oil."
                                   class="mt-1.5 block w-full rounded-xl border-neutral-200 shadow-sm text-sm focus:border-neutral-500 focus:ring-neutral-500">{{ old('observation') }}</textarea>
                         @error('observation')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Photo Upload -->
+                    <div>
+                        <label for="photo" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider">Upload Photo</label>
+                        <input id="photo" type="file" name="photo" accept="image/*"
+                               class="mt-1.5 block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-neutral-100 file:text-neutral-700 hover:file:bg-neutral-200 transition-colors" />
+                        <p class="text-[10px] text-neutral-400 mt-1">Supported formats: JPEG, PNG, JPG, GIF. Max size: 10MB.</p>
+                        @error('photo')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
