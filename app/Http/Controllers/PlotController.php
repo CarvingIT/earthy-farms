@@ -26,6 +26,7 @@ class PlotController extends Controller
             'farmer_id' => 'required|exists:farmers,id',
             'name' => 'required|string|max:255',
             'area' => 'required|numeric|min:0.01',
+            'gps' => 'required|string|max:255',
         ]);
 
         Plot::create($validated);
@@ -45,6 +46,7 @@ class PlotController extends Controller
             'farmer_id' => 'required|exists:farmers,id',
             'name' => 'required|string|max:255',
             'area' => 'required|numeric|min:0.01',
+            'gps' => 'required|string|max:255',
         ]);
 
         $plot->update($validated);

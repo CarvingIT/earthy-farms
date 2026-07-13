@@ -56,72 +56,72 @@ class DatabaseSeeder extends Seeder
         $farmersData = [
             [
                 'name' => 'Rajesh Kumar',
-                'location' => '19.9975, 73.7898',
+                'contact_number' => '+91 98765 00001',
                 'address' => 'Gat No. 112, Pimpalgaon Baswant, Nashik, Maharashtra - 422209'
             ],
             [
                 'name' => 'Sunita Devi',
-                'location' => '29.0588, 76.0856',
+                'contact_number' => '+91 98765 00002',
                 'address' => 'VPO Shamlo Kalan, Jind District, Haryana - 126102'
             ],
             [
                 'name' => 'Anil Sharma',
-                'location' => '31.6340, 74.8723',
+                'contact_number' => '+91 98765 00003',
                 'address' => 'Bunglow No. 4, Ajnala Road, Near Airport, Amritsar, Punjab - 143001'
             ],
             [
                 'name' => 'Venkatesh Prasad',
-                'location' => '16.2008, 80.4404',
+                'contact_number' => '+91 98765 00004',
                 'address' => 'Plot No. 45, Amaravathi Road, Guntur, Andhra Pradesh - 522002'
             ],
             [
                 'name' => 'Ramesh Patel',
-                'location' => '22.3072, 73.1812',
+                'contact_number' => '+91 98765 00005',
                 'address' => 'Plot No. 24, GIDC Estate, Makarpura, Vadodara, Gujarat - 390010'
             ],
             [
                 'name' => 'Karan Singh',
-                'location' => '26.2389, 73.0243',
+                'contact_number' => '+91 98765 00006',
                 'address' => 'Village Khejarli, Jodhpur District, Rajasthan - 342012'
             ],
             [
                 'name' => 'Manoj Gowda',
-                'location' => '12.9716, 77.5946',
+                'contact_number' => '+91 98765 00007',
                 'address' => 'Sy No. 54, Maddur Taluk, Mandya District, Karnataka - 571428'
             ],
             [
                 'name' => 'Suresh Naidu',
-                'location' => '14.4673, 78.8242',
+                'contact_number' => '+91 98765 00008',
                 'address' => 'Door No. 3-88, Rayachoty Road, Kadapa, Andhra Pradesh - 516001'
             ],
             [
                 'name' => 'Meena Kumari',
-                'location' => '25.6110, 85.1414',
+                'contact_number' => '+91 98765 00009',
                 'address' => 'Village & PO Bihta, Patna District, Bihar - 801103'
             ],
             [
                 'name' => 'Balwinder Singh',
-                'location' => '30.9010, 75.8573',
+                'contact_number' => '+91 98765 00010',
                 'address' => 'House No. 12, Ferozepur Road, Ludhiana, Punjab - 141012'
             ],
             [
                 'name' => 'Karthik Rajan',
-                'location' => '11.0168, 76.9558',
+                'contact_number' => '+91 98765 00011',
                 'address' => 'Gat No. 89, Pollachi Main Road, Coimbatore, Tamil Nadu - 641021'
             ],
             [
                 'name' => 'Babulal Mahato',
-                'location' => '23.3441, 85.3096',
+                'contact_number' => '+91 98765 00012',
                 'address' => 'Village Ormanjhi, Ranchi District, Jharkhand - 835219'
             ],
             [
                 'name' => 'Pradeep Bisht',
-                'location' => '29.3800, 79.4636',
+                'contact_number' => '+91 98765 00013',
                 'address' => 'Kathgharia, Haldwani, Nainital District, Uttarakhand - 263139'
             ],
             [
                 'name' => 'Debashish Banik',
-                'location' => '22.9868, 87.8550',
+                'contact_number' => '+91 98765 00014',
                 'address' => 'Sadhanpur Farm Area, Bardhaman, West Bengal - 713101'
             ]
         ];
@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
         foreach ($farmersData as $fd) {
             $farmers[$fd['name']] = Farmer::firstOrCreate(
                 ['name' => $fd['name']],
-                ['location' => $fd['location'], 'address' => $fd['address']]
+                ['contact_number' => $fd['contact_number'], 'address' => $fd['address']]
             );
         }
 
@@ -139,77 +139,92 @@ class DatabaseSeeder extends Seeder
             [
                 'farmer' => 'Rajesh Kumar',
                 'name' => 'Mango Orchard',
-                'area' => 3.5
+                'area' => 3.5,
+                'gps' => '19.9975, 73.7898'
             ],
             [
                 'farmer' => 'Rajesh Kumar',
                 'name' => 'Grapes Vineyard',
-                'area' => 2.0
+                'area' => 2.0,
+                'gps' => '19.9980, 73.7905'
             ],
             [
                 'farmer' => 'Sunita Devi',
                 'name' => 'Wheat Field North',
-                'area' => 5.0
+                'area' => 5.0,
+                'gps' => '29.0588, 76.0856'
             ],
             [
                 'farmer' => 'Anil Sharma',
                 'name' => 'Paddy Field Block A',
-                'area' => 4.5
+                'area' => 4.5,
+                'gps' => '31.6340, 74.8723'
             ],
             [
                 'farmer' => 'Venkatesh Prasad',
                 'name' => 'Chilli Plantation',
-                'area' => 2.5
+                'area' => 2.5,
+                'gps' => '16.2008, 80.4404'
             ],
             [
                 'farmer' => 'Ramesh Patel',
                 'name' => 'Cotton Field East',
-                'area' => 4.0
+                'area' => 4.0,
+                'gps' => '22.3072, 73.1812'
             ],
             [
                 'farmer' => 'Karan Singh',
                 'name' => 'Bajra Field',
-                'area' => 6.5
+                'area' => 6.5,
+                'gps' => '26.2389, 73.0243'
             ],
             [
                 'farmer' => 'Manoj Gowda',
                 'name' => 'Sugarcane Block 1',
-                'area' => 5.5
+                'area' => 5.5,
+                'gps' => '12.9716, 77.5946'
             ],
             [
                 'farmer' => 'Suresh Naidu',
                 'name' => 'Banana Plantation',
-                'area' => 3.0
+                'area' => 3.0,
+                'gps' => '14.4673, 78.8242'
             ],
             [
                 'farmer' => 'Meena Kumari',
                 'name' => 'Potato patch',
-                'area' => 1.5
+                'area' => 1.5,
+                'gps' => '25.6110, 85.1414'
             ],
             [
                 'farmer' => 'Balwinder Singh',
                 'name' => 'Mustard Block',
-                'area' => 3.5
+                'area' => 3.5,
+                'gps' => '30.9010, 75.8573'
             ],
             [
                 'farmer' => 'Karthik Rajan',
                 'name' => 'Coconut Grove',
-                'area' => 5.0
+                'area' => 5.0,
+                'gps' => '11.0168, 76.9558'
             ],
             [
                 'farmer' => 'Babulal Mahato',
                 'name' => 'Tomato Field',
-                'area' => 2.0
+                'area' => 2.0,
+                'gps' => '23.3441, 85.3096'
             ],
             [
                 'farmer' => 'Pradeep Bisht',
                 'name' => 'Apple Orchard',
-                'area' => 2.2
+                'area' => 2.2,
+                'gps' => '29.3800, 79.4636'
             ],
             [
                 'farmer' => 'Debashish Banik',
                 'name' => 'Jute Field',
-                'area' => 2.8
+                'area' => 2.8,
+                'gps' => '22.9868, 87.8550'
             ]
         ];
 
@@ -218,7 +233,7 @@ class DatabaseSeeder extends Seeder
             $farmer = $farmers[$pd['farmer']];
             $plots[$pd['name']] = Plot::firstOrCreate(
                 ['farmer_id' => $farmer->id, 'name' => $pd['name']],
-                ['area' => $pd['area']]
+                ['area' => $pd['area'], 'gps' => $pd['gps']]
             );
         }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('input_id');
             $table->double('quantity');
             $table->date('loading_date');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

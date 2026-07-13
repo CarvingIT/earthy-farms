@@ -38,8 +38,9 @@
                                 </div>
                                 <div class="mt-3 space-y-1.5">
                                     <p class="text-xs text-neutral-400">Farmer / Owner:</p>
-                                    <p class="text-sm font-semibold text-neutral-800">{{ $plot->farmer->name }}</p>
-                                    <p class="text-[11px] text-neutral-500">{{ $plot->farmer->location }}</p>
+                                    <p class="text-sm font-semibold text-neutral-800">{{ $plot->farmer->name }} <span class="text-xs font-normal text-neutral-500">({{ $plot->farmer->contact_number }})</span></p>
+                                    <p class="text-xs text-neutral-400">GPS Location:</p>
+                                    <p class="text-xs font-semibold text-neutral-800">{{ $plot->gps }}</p>
                                 </div>
                             </div>
                             <div class="border-t border-neutral-100 pt-3 flex items-center justify-between">

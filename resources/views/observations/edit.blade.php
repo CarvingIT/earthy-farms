@@ -51,7 +51,7 @@
                         this.selectedCropId = '';
                     }
                  }">
-                <form method="POST" action="{{ route('observations.update', $observation) }}" class="space-y-4">
+                <form method="POST" action="{{ route('observations.update', $observation) }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
                     @method('PUT')
 
@@ -110,6 +110,23 @@
                         <textarea id="observation" name="observation" rows="4" required
                                   class="mt-1.5 block w-full rounded-xl border-neutral-200 shadow-sm text-sm focus:border-neutral-500 focus:ring-neutral-500">{{ old('observation', $observation->observation) }}</textarea>
                         @error('observation')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Photo Upload -->
+                    <div>
+                        <label for="photo" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider">Upload Photo</label>
+                        @if($observation->photo_path)
+                            <div class="mt-2 mb-3">
+                                <p class="text-[10px] text-neutral-400 font-bold uppercase mb-1">Current Photo:</p>
+                                <img src="{{ asset('storage/' . $observation->photo_path) }}" alt="Observation Photo" class="w-32 h-20 object-cover rounded-xl border border-neutral-200" />
+                            </div>
+                        @endif
+                        <input id="photo" type="file" name="photo" accept="image/*"
+                               class="mt-1.5 block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-neutral-100 file:text-neutral-700 hover:file:bg-neutral-200 transition-colors" />
+                        <p class="text-[10px] text-neutral-400 mt-1">Supported formats: JPEG, PNG, JPG, GIF. Max size: 10MB.</p>
+                        @error('photo')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>

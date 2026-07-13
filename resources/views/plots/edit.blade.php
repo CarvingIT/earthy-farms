@@ -23,7 +23,7 @@
                                 class="mt-1.5 block w-full rounded-xl border-neutral-200 shadow-sm text-sm focus:border-neutral-500 focus:ring-neutral-500">
                             @foreach($farmers as $farmer)
                                 <option value="{{ $farmer->id }}" {{ old('farmer_id', $plot->farmer_id) == $farmer->id ? 'selected' : '' }}>
-                                    {{ $farmer->name }}
+                                    {{ $farmer->name }} ({{ $farmer->contact_number }})
                                 </option>
                             @endforeach
                         </select>
@@ -48,6 +48,16 @@
                         <input id="area" type="number" step="0.01" name="area" value="{{ old('area', $plot->area) }}" required
                                class="mt-1.5 block w-full rounded-xl border-neutral-200 shadow-sm text-sm focus:border-neutral-500 focus:ring-neutral-500" />
                         @error('area')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- GPS Location -->
+                    <div>
+                        <label for="gps" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider">GPS Location (Coordinates)</label>
+                        <input id="gps" type="text" name="gps" value="{{ old('gps', $plot->gps) }}" required placeholder="e.g. 19.9975, 73.7898"
+                               class="mt-1.5 block w-full rounded-xl border-neutral-200 shadow-sm text-sm focus:border-neutral-500 focus:ring-neutral-500" />
+                        @error('gps')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>

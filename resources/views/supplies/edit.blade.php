@@ -130,6 +130,16 @@
                         @enderror
                     </div>
 
+                    <!-- Note -->
+                    <div>
+                        <label for="note" class="block text-xs font-bold text-neutral-700 uppercase tracking-wider">Note / Remarks</label>
+                        <textarea id="note" name="note" rows="3" placeholder="e.g. Applied near crop roots after light weeding"
+                                  class="mt-1.5 block w-full rounded-xl border-neutral-200 shadow-sm text-sm focus:border-neutral-500 focus:ring-neutral-500">{{ old('note', $supply->note) }}</textarea>
+                        @error('note')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div class="pt-2">
                         <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-2.5 text-xs font-semibold text-white bg-neutral-900 hover:bg-neutral-800 rounded-xl transition shadow-sm">
                             Update Supply Record
