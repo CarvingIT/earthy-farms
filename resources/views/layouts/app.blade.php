@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="background-color: #f3f4f6;">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="background-color: #ffffff;">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,10 +9,10 @@
 
         <!-- PWA Meta Tags -->
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
         <meta name="apple-mobile-web-app-title" content="ECSPL Farms">
         <meta name="mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#f3f4f6">
+        <meta name="theme-color" content="#ffffff">
         <link rel="manifest" href="/manifest.json">
         <link rel="apple-touch-icon" sizes="180x180" href="/pwa-icons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/pwa-icons/favicon-32x32.png">
@@ -25,7 +25,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased" style="background-color: #f3f4f6; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);">
+    <body class="font-sans antialiased">
         <!-- iOS Mobile Page Progress Bar Indicator -->
         <div id="ios-progress" class="fixed top-0 left-0 h-[2px] bg-emerald-500 z-50 transition-all duration-300 w-0" style="display: none;"></div>
 
