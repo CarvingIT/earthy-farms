@@ -14,9 +14,9 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="theme-color" content="#ffffff">
         <link rel="manifest" href="/manifest.json">
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/pwa-icons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/pwa-icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/pwa-icons/favicon-16x16.png">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -399,7 +399,7 @@
         <div id="pwa-install-banner" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white/95 backdrop-blur-md border border-neutral-200/60 shadow-2xl rounded-2xl p-4 z-[60] flex items-center justify-between gap-4 transition-all duration-300 transform translate-y-32 opacity-0" style="display: none;">
             <div class="flex items-center gap-3">
                 <div class="h-10 w-10 shrink-0 rounded-xl overflow-hidden shadow-sm">
-                    <img src="/icons/apple-touch-icon.png" alt="ECSPL Farms Logo" class="h-full w-full object-cover">
+                    <img src="/pwa-icons/apple-touch-icon.png" alt="ECSPL Farms Logo" class="h-full w-full object-cover">
                 </div>
                 <div>
                     <h4 class="text-xs font-bold text-neutral-900">Install ECSPL Farms</h4>
@@ -423,7 +423,7 @@
             <div class="flex items-start justify-between">
                 <div class="flex items-center gap-3">
                     <div class="h-10 w-10 shrink-0 rounded-xl overflow-hidden shadow-sm">
-                        <img src="/icons/apple-touch-icon.png" alt="ECSPL Farms Logo" class="h-full w-full object-cover">
+                        <img src="/pwa-icons/apple-touch-icon.png" alt="ECSPL Farms Logo" class="h-full w-full object-cover">
                     </div>
                     <div>
                         <h4 class="text-xs font-bold text-neutral-900">Install ECSPL Farms</h4>

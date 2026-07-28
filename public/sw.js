@@ -2,11 +2,11 @@ const CACHE_NAME = 'earthy-farms-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
-  '/icons/apple-touch-icon.png',
-  '/icons/favicon-32x32.png',
-  '/icons/favicon-16x16.png',
+  '/pwa-icons/icon-192x192.png',
+  '/pwa-icons/icon-512x512.png',
+  '/pwa-icons/apple-touch-icon.png',
+  '/pwa-icons/favicon-32x32.png',
+  '/pwa-icons/favicon-16x16.png',
   '/favicon.ico'
 ];
 
