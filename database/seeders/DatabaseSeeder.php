@@ -382,6 +382,13 @@ class DatabaseSeeder extends Seeder
                 'Boron' => 0.6, 'Fe' => 6.1, 'Zn' => 0.95, 'Cu' => 0.5, 'Mg' => 1.4, 'S' => 14.0,
                 'microbial_count' => 2200000
             ],
+            [
+                'plot' => 'Chilli Plantation',
+                'sample_date' => '2025-08-25',
+                'Ph' => 6.2, 'EC' => 0.55, 'OC' => 0.60, 'N' => 260.0, 'P' => 21.0, 'K' => 320.0,
+                'Boron' => 0.5, 'Fe' => 5.5, 'Zn' => 0.85, 'Cu' => 0.45, 'Mg' => 1.3, 'S' => 11.8,
+                'microbial_count' => 1600000
+            ],
         ];
 
         foreach ($soilReportsData as $srd) {
