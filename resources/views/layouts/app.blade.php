@@ -300,16 +300,26 @@
                     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                     const isAndroid = /Android/i.test(navigator.userAgent);
                     const instrText = document.getElementById('pwa-instructions-text');
+                    const instrSubtitle = document.getElementById('pwa-instructions-subtitle');
                     
                     if (isIOS) {
+                        if (instrSubtitle) {
+                            instrSubtitle.innerText = 'Run ECSPL Farms as a full-screen app on iOS';
+                        }
                         if (instrText) {
                             instrText.innerHTML = `Tap the <span class="font-bold text-neutral-800">Share button</span> <span class="inline-block px-1.5 py-0.5 bg-white border rounded shadow-sm"><svg class="w-3 h-3 inline text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3-3m0 0l3 3m-3-3v12"/></svg></span> in Safari, then select <span class="font-bold text-neutral-800">"Add to Home Screen"</span>.`;
                         }
                     } else if (isAndroid) {
+                        if (instrSubtitle) {
+                            instrSubtitle.innerText = 'Run ECSPL Farms as a full-screen app on Android';
+                        }
                         if (instrText) {
                             instrText.innerHTML = `Tap Chrome's <span class="font-bold text-neutral-800">three-dots menu</span> <span class="inline-block px-1 bg-white border rounded shadow-sm">⋮</span>, then select <span class="font-bold text-neutral-800">"Install App"</span> or <span class="font-bold text-neutral-800">"Add to Home Screen"</span>.`;
                         }
                     } else {
+                        if (instrSubtitle) {
+                            instrSubtitle.innerText = 'Run ECSPL Farms as a full-screen app on Desktop';
+                        }
                         if (instrText) {
                             instrText.innerHTML = `Click the <span class="font-bold text-neutral-800">Install icon</span> in your browser's address bar, or open the browser menu and select <span class="font-bold text-neutral-800">"Install ECSPL Farms"</span>.`;
                         }
@@ -398,7 +408,7 @@
             </div>
         </div>
 
-        <!-- iOS PWA Install Guide Tooltip -->
+        <!-- PWA Install Guide Tooltip (Universal) -->
         <div id="ios-install-tooltip" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-sm bg-white/95 backdrop-blur-md border border-neutral-200/60 shadow-2xl rounded-2xl p-4 z-[60] flex flex-col gap-2.5 transition-all duration-300 transform translate-y-32 opacity-0" style="display: none;">
             <div class="flex items-start justify-between">
                 <div class="flex items-center gap-3">
@@ -407,7 +417,7 @@
                     </div>
                     <div>
                         <h4 class="text-xs font-bold text-neutral-900">Install ECSPL Farms</h4>
-                        <p class="text-[10px] text-neutral-500">Run ECSPL Farms as a full-screen app on iOS</p>
+                        <p id="pwa-instructions-subtitle" class="text-[10px] text-neutral-500">Run ECSPL Farms as a full-screen app on iOS</p>
                     </div>
                 </div>
                 <button id="ios-close-btn" class="p-1 hover:bg-neutral-100 rounded-lg text-neutral-400 hover:text-neutral-600 transition">
@@ -416,7 +426,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="text-[11px] text-neutral-600 leading-relaxed bg-neutral-50 p-2.5 rounded-xl border border-neutral-100">
+            <div id="pwa-instructions-text" class="text-[11px] text-neutral-600 leading-relaxed bg-neutral-50 p-2.5 rounded-xl border border-neutral-100">
                 Tap the <span class="font-bold text-neutral-800">Share button</span> <span class="inline-block px-1.5 py-0.5 bg-white border rounded shadow-sm"><svg class="w-3 h-3 inline text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3-3m0 0l3 3m-3-3v12"/></svg></span> in Safari, then select <span class="font-bold text-neutral-800">"Add to Home Screen"</span>.
             </div>
         </div>
