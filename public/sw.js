@@ -1,4 +1,4 @@
-const CACHE_NAME = 'earthy-farms-cache-v1';
+const CACHE_NAME = 'earthy-farms-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',
