@@ -244,7 +244,7 @@
                 });
             });
 
-            // Advanced PWA Custom Prompt & iOS Helper
+            // Advanced PWA Custom Prompt & Universal Install Helper
             document.addEventListener('DOMContentLoaded', () => {
                 const installBanner = document.getElementById('pwa-install-banner');
                 const installBtn = document.getElementById('pwa-install-btn');
@@ -257,106 +257,119 @@
 
                 let deferredPrompt;
 
-                // Check if already running in standalone mode (installed PWA)
-                const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+                // Ensure header install button is visible by default (user requested always visible)
+                if (headerInstallBtn) {
+                    headerInstallBtn.style.display = 'inline-block';
+                }
 
-                if (!isStandalone) {
-                    // 1. Android/Chrome/Edge Custom Install Banner & Header Icon
-                    window.addEventListener('beforeinstallprompt', (e) => {
-                        e.preventDefault();
-                        deferredPrompt = e;
-                        
-                        // Show header install button immediately
-                        if (headerInstallBtn) {
-                            headerInstallBtn.style.display = 'inline-block';
-                        }
-                        
-                        // Show banner with animation after 2.5 seconds
-                        setTimeout(() => {
-                            if (installBanner) {
-                                installBanner.style.display = 'flex';
-                                setTimeout(() => {
-                                    installBanner.classList.remove('translate-y-32', 'opacity-0');
-                                }, 50);
-                            }
-                        }, 2500);
-                    });
-
-                    // Direct Install logic
-                    const triggerInstall = async () => {
-                        if (!deferredPrompt) return;
-                        deferredPrompt.prompt();
-                        const { outcome } = await deferredPrompt.userChoice;
-                        deferredPrompt = null;
-                        
-                        // Hide banner and header button
-                        if (installBanner) {
-                            installBanner.classList.add('translate-y-32', 'opacity-0');
-                            setTimeout(() => { installBanner.style.display = 'none'; }, 300);
-                        }
-                        if (headerInstallBtn) {
-                            headerInstallBtn.style.display = 'none';
-                        }
-                    };
-
-                    if (installBtn) {
-                        installBtn.addEventListener('click', triggerInstall);
-                    }
+                // 1. Listen for Chrome/Android's install prompt
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
                     
-                    if (headerInstallBtn) {
-                        headerInstallBtn.addEventListener('click', () => {
-                            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-                            
-                            if (isIOS && isSafari) {
-                                // For iOS Safari, show the tutorial tooltip instead
-                                if (iosTooltip) {
-                                    iosTooltip.style.display = 'flex';
-                                    setTimeout(() => {
-                                        iosTooltip.classList.remove('translate-y-32', 'opacity-0');
-                                    }, 50);
-                                }
-                            } else {
-                                // For Android/Chrome
-                                triggerInstall();
-                            }
-                        });
+                    // Show standard floating banner after 2.5s if not running in standalone mode
+                    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+                    if (!isStandalone && installBanner) {
+                        setTimeout(() => {
+                            installBanner.style.display = 'flex';
+                            setTimeout(() => {
+                                installBanner.classList.remove('translate-y-32', 'opacity-0');
+                            }, 50);
+                        }, 2500);
                     }
+                });
 
-                    if (closeBtn) {
-                        closeBtn.addEventListener('click', () => {
-                            installBanner.classList.add('translate-y-32', 'opacity-0');
-                            setTimeout(() => { installBanner.style.display = 'none'; }, 300);
-                        });
+                // Function to trigger native prompt
+                const triggerInstall = async () => {
+                    if (!deferredPrompt) return;
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`PWA Installation outcome: ${outcome}`);
+                    deferredPrompt = null;
+                    
+                    // Hide floating banner
+                    if (installBanner) {
+                        installBanner.classList.add('translate-y-32', 'opacity-0');
+                        setTimeout(() => { installBanner.style.display = 'none'; }, 300);
                     }
+                };
 
-                    // 2. iOS Safari Custom Help Tooltip (since iOS does not support beforeinstallprompt)
+                // Function to display platform-specific instructions in the tooltip
+                const showInstructions = () => {
                     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
                     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                    const isAndroid = /Android/i.test(navigator.userAgent);
+                    const instrText = document.getElementById('pwa-instructions-text');
                     
-                    if (isIOS && isSafari) {
-                        // Also show header install icon for iOS Safari!
-                        if (headerInstallBtn) {
-                            headerInstallBtn.style.display = 'inline-block';
+                    if (isIOS) {
+                        if (instrText) {
+                            instrText.innerHTML = `Tap the <span class="font-bold text-neutral-800">Share button</span> <span class="inline-block px-1.5 py-0.5 bg-white border rounded shadow-sm"><svg class="w-3 h-3 inline text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3-3m0 0l3 3m-3-3v12"/></svg></span> in Safari, then select <span class="font-bold text-neutral-800">"Add to Home Screen"</span>.`;
                         }
+                    } else if (isAndroid) {
+                        if (instrText) {
+                            instrText.innerHTML = `Tap Chrome's <span class="font-bold text-neutral-800">three-dots menu</span> <span class="inline-block px-1 bg-white border rounded shadow-sm">⋮</span>, then select <span class="font-bold text-neutral-800">"Install App"</span> or <span class="font-bold text-neutral-800">"Add to Home Screen"</span>.`;
+                        }
+                    } else {
+                        if (instrText) {
+                            instrText.innerHTML = `Click the <span class="font-bold text-neutral-800">Install icon</span> in your browser's address bar, or open the browser menu and select <span class="font-bold text-neutral-800">"Install ECSPL Farms"</span>.`;
+                        }
+                    }
 
-                        // Check if we already showed it in this session to avoid annoying the user
-                        if (!sessionStorage.getItem('ios-pwa-prompt-shown') && iosTooltip) {
-                            setTimeout(() => {
-                                iosTooltip.style.display = 'flex';
-                                setTimeout(() => {
-                                    iosTooltip.classList.remove('translate-y-32', 'opacity-0');
-                                    sessionStorage.setItem('ios-pwa-prompt-shown', 'true');
-                                }, 50);
-                            }, 3500);
-                        }
+                    if (iosTooltip) {
+                        iosTooltip.style.display = 'flex';
+                        setTimeout(() => {
+                            iosTooltip.classList.remove('translate-y-32', 'opacity-0');
+                        }, 50);
+                    }
+                };
 
-                        if (iosCloseBtn) {
-                            iosCloseBtn.addEventListener('click', () => {
-                                iosTooltip.classList.add('translate-y-32', 'opacity-0');
-                                setTimeout(() => { iosTooltip.style.display = 'none'; }, 300);
-                            });
+                // Wire up desktop/mobile header install icon click
+                if (headerInstallBtn) {
+                    headerInstallBtn.addEventListener('click', () => {
+                        if (deferredPrompt) {
+                            triggerInstall();
+                        } else {
+                            showInstructions();
                         }
+                    });
+                }
+
+                // Wire up banner install button click
+                if (installBtn) {
+                    installBtn.addEventListener('click', () => {
+                        if (deferredPrompt) {
+                            triggerInstall();
+                        } else {
+                            showInstructions();
+                        }
+                    });
+                }
+
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        installBanner.classList.add('translate-y-32', 'opacity-0');
+                        setTimeout(() => { installBanner.style.display = 'none'; }, 300);
+                    });
+                }
+
+                if (iosCloseBtn) {
+                    iosCloseBtn.addEventListener('click', () => {
+                        iosTooltip.classList.add('translate-y-32', 'opacity-0');
+                        setTimeout(() => { iosTooltip.style.display = 'none'; }, 300);
+                    });
+                }
+
+                // iOS Safari automatic tooltip trigger (only if not already running in standalone)
+                const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                
+                if (!isStandalone && isIOS && isSafari && iosTooltip) {
+                    if (!sessionStorage.getItem('ios-pwa-prompt-shown')) {
+                        setTimeout(() => {
+                            showInstructions();
+                            sessionStorage.setItem('ios-pwa-prompt-shown', 'true');
+                        }, 3500);
                     }
                 }
             });
