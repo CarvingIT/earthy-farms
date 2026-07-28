@@ -12,7 +12,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="ECSPL Farms">
         <meta name="mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#ffffff">
+        <meta name="theme-color" content="#f3f4f6">
         <link rel="manifest" href="/manifest.json">
         <link rel="apple-touch-icon" sizes="180x180" href="/pwa-icons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/pwa-icons/favicon-32x32.png">
