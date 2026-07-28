@@ -250,6 +250,8 @@
                 const installBtn = document.getElementById('pwa-install-btn');
                 const closeBtn = document.getElementById('pwa-close-btn');
                 
+                const headerInstallBtn = document.getElementById('pwa-header-install-btn');
+                
                 const iosTooltip = document.getElementById('ios-install-tooltip');
                 const iosCloseBtn = document.getElementById('ios-close-btn');
 
@@ -259,10 +261,15 @@
                 const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
                 if (!isStandalone) {
-                    // 1. Android/Chrome/Edge Custom Install Banner
+                    // 1. Android/Chrome/Edge Custom Install Banner & Header Icon
                     window.addEventListener('beforeinstallprompt', (e) => {
                         e.preventDefault();
                         deferredPrompt = e;
+                        
+                        // Show header install button immediately
+                        if (headerInstallBtn) {
+                            headerInstallBtn.style.display = 'inline-block';
+                        }
                         
                         // Show banner with animation after 2.5 seconds
                         setTimeout(() => {
@@ -275,16 +282,44 @@
                         }, 2500);
                     });
 
-                    if (installBtn) {
-                        installBtn.addEventListener('click', async () => {
-                            if (!deferredPrompt) return;
-                            deferredPrompt.prompt();
-                            const { outcome } = await deferredPrompt.userChoice;
-                            deferredPrompt = null;
-                            
-                            // Hide banner
+                    // Direct Install logic
+                    const triggerInstall = async () => {
+                        if (!deferredPrompt) return;
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        deferredPrompt = null;
+                        
+                        // Hide banner and header button
+                        if (installBanner) {
                             installBanner.classList.add('translate-y-32', 'opacity-0');
                             setTimeout(() => { installBanner.style.display = 'none'; }, 300);
+                        }
+                        if (headerInstallBtn) {
+                            headerInstallBtn.style.display = 'none';
+                        }
+                    };
+
+                    if (installBtn) {
+                        installBtn.addEventListener('click', triggerInstall);
+                    }
+                    
+                    if (headerInstallBtn) {
+                        headerInstallBtn.addEventListener('click', () => {
+                            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                            
+                            if (isIOS && isSafari) {
+                                // For iOS Safari, show the tutorial tooltip instead
+                                if (iosTooltip) {
+                                    iosTooltip.style.display = 'flex';
+                                    setTimeout(() => {
+                                        iosTooltip.classList.remove('translate-y-32', 'opacity-0');
+                                    }, 50);
+                                }
+                            } else {
+                                // For Android/Chrome
+                                triggerInstall();
+                            }
                         });
                     }
 
@@ -299,9 +334,14 @@
                     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
                     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                     
-                    if (isIOS && isSafari && iosTooltip) {
+                    if (isIOS && isSafari) {
+                        // Also show header install icon for iOS Safari!
+                        if (headerInstallBtn) {
+                            headerInstallBtn.style.display = 'inline-block';
+                        }
+
                         // Check if we already showed it in this session to avoid annoying the user
-                        if (!sessionStorage.getItem('ios-pwa-prompt-shown')) {
+                        if (!sessionStorage.getItem('ios-pwa-prompt-shown') && iosTooltip) {
                             setTimeout(() => {
                                 iosTooltip.style.display = 'flex';
                                 setTimeout(() => {
