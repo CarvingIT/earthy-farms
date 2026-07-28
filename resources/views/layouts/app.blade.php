@@ -243,6 +243,129 @@
                     navigateTo(window.location.href, false);
                 });
             });
+
+            // Advanced PWA Custom Prompt & iOS Helper
+            document.addEventListener('DOMContentLoaded', () => {
+                const installBanner = document.getElementById('pwa-install-banner');
+                const installBtn = document.getElementById('pwa-install-btn');
+                const closeBtn = document.getElementById('pwa-close-btn');
+                
+                const iosTooltip = document.getElementById('ios-install-tooltip');
+                const iosCloseBtn = document.getElementById('ios-close-btn');
+
+                let deferredPrompt;
+
+                // Check if already running in standalone mode (installed PWA)
+                const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+                if (!isStandalone) {
+                    // 1. Android/Chrome/Edge Custom Install Banner
+                    window.addEventListener('beforeinstallprompt', (e) => {
+                        e.preventDefault();
+                        deferredPrompt = e;
+                        
+                        // Show banner with animation after 2.5 seconds
+                        setTimeout(() => {
+                            if (installBanner) {
+                                installBanner.style.display = 'flex';
+                                setTimeout(() => {
+                                    installBanner.classList.remove('translate-y-32', 'opacity-0');
+                                }, 50);
+                            }
+                        }, 2500);
+                    });
+
+                    if (installBtn) {
+                        installBtn.addEventListener('click', async () => {
+                            if (!deferredPrompt) return;
+                            deferredPrompt.prompt();
+                            const { outcome } = await deferredPrompt.userChoice;
+                            deferredPrompt = null;
+                            
+                            // Hide banner
+                            installBanner.classList.add('translate-y-32', 'opacity-0');
+                            setTimeout(() => { installBanner.style.display = 'none'; }, 300);
+                        });
+                    }
+
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', () => {
+                            installBanner.classList.add('translate-y-32', 'opacity-0');
+                            setTimeout(() => { installBanner.style.display = 'none'; }, 300);
+                        });
+                    }
+
+                    // 2. iOS Safari Custom Help Tooltip (since iOS does not support beforeinstallprompt)
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                    
+                    if (isIOS && isSafari && iosTooltip) {
+                        // Check if we already showed it in this session to avoid annoying the user
+                        if (!sessionStorage.getItem('ios-pwa-prompt-shown')) {
+                            setTimeout(() => {
+                                iosTooltip.style.display = 'flex';
+                                setTimeout(() => {
+                                    iosTooltip.classList.remove('translate-y-32', 'opacity-0');
+                                    sessionStorage.setItem('ios-pwa-prompt-shown', 'true');
+                                }, 50);
+                            }, 3500);
+                        }
+
+                        if (iosCloseBtn) {
+                            iosCloseBtn.addEventListener('click', () => {
+                                iosTooltip.classList.add('translate-y-32', 'opacity-0');
+                                setTimeout(() => { iosTooltip.style.display = 'none'; }, 300);
+                            });
+                        }
+                    }
+                }
+            });
         </script>
+
+        <!-- Advanced PWA Custom Install Banner -->
+        <div id="pwa-install-banner" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white/95 backdrop-blur-md border border-neutral-200/60 shadow-2xl rounded-2xl p-4 z-[60] flex items-center justify-between gap-4 transition-all duration-300 transform translate-y-32 opacity-0" style="display: none;">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 shrink-0 rounded-xl overflow-hidden shadow-sm">
+                    <img src="/icons/apple-touch-icon.png" alt="ECSPL Farms Logo" class="h-full w-full object-cover">
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-neutral-900">Install ECSPL Farms</h4>
+                    <p class="text-[10px] text-neutral-500 leading-tight">Add to your home screen for full-screen access</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="pwa-install-btn" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition shadow-sm">
+                    Install
+                </button>
+                <button id="pwa-close-btn" class="p-1.5 hover:bg-neutral-100 rounded-lg text-neutral-400 hover:text-neutral-600 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- iOS PWA Install Guide Tooltip -->
+        <div id="ios-install-tooltip" class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-sm bg-white/95 backdrop-blur-md border border-neutral-200/60 shadow-2xl rounded-2xl p-4 z-[60] flex flex-col gap-2.5 transition-all duration-300 transform translate-y-32 opacity-0" style="display: none;">
+            <div class="flex items-start justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="h-10 w-10 shrink-0 rounded-xl overflow-hidden shadow-sm">
+                        <img src="/icons/apple-touch-icon.png" alt="ECSPL Farms Logo" class="h-full w-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-neutral-900">Install ECSPL Farms</h4>
+                        <p class="text-[10px] text-neutral-500">Run ECSPL Farms as a full-screen app on iOS</p>
+                    </div>
+                </div>
+                <button id="ios-close-btn" class="p-1 hover:bg-neutral-100 rounded-lg text-neutral-400 hover:text-neutral-600 transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="text-[11px] text-neutral-600 leading-relaxed bg-neutral-50 p-2.5 rounded-xl border border-neutral-100">
+                Tap the <span class="font-bold text-neutral-800">Share button</span> <span class="inline-block px-1.5 py-0.5 bg-white border rounded shadow-sm"><svg class="w-3 h-3 inline text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3-3m0 0l3 3m-3-3v12"/></svg></span> in Safari, then select <span class="font-bold text-neutral-800">"Add to Home Screen"</span>.
+            </div>
+        </div>
     </body>
 </html>
