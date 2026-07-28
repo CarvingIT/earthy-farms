@@ -10,11 +10,17 @@ const ASSETS_TO_CACHE = [
   '/favicon.ico'
 ];
 
-// Install Service Worker
+// Install Service Worker - Resilient Caching
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      // Cache each asset individually and catch errors so a missing icon doesn't crash the PWA installation
+      const cachePromises = ASSETS_TO_CACHE.map((asset) => {
+        return cache.add(asset).catch((err) => {
+          console.warn(`PWA pre-cache warning: Failed to cache ${asset}. Proceeding anyway.`, err);
+        });
+      });
+      return Promise.all(cachePromises);
     }).then(() => self.skipWaiting())
   );
 });
