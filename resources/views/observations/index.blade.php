@@ -53,8 +53,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pt-4 text-sm text-neutral-700 leading-relaxed italic">
-                                "{{ $obs->observation }}"
+                            <div class="pt-4 flex flex-col md:flex-row gap-4 items-start">
+                                @if($obs->photo_path)
+                                    <div class="shrink-0">
+                                        <a href="{{ asset('storage/' . $obs->photo_path) }}" target="_blank" title="View full image">
+                                            <img src="{{ asset('storage/' . $obs->photo_path) }}" alt="Observation photo" class="w-32 h-24 object-cover rounded-xl border border-neutral-200 hover:opacity-90 transition-opacity" />
+                                        </a>
+                                    </div>
+                                @endif
+                                <div class="text-sm text-neutral-700 leading-relaxed italic">
+                                    "{{ $obs->observation }}"
+                                </div>
                             </div>
                         </div>
                     @endforeach

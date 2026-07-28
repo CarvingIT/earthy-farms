@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('farmer_id');
             $table->string('name');
             $table->double('area');
-            
+            $table->string('gps');
             $table->timestamps();
         });
     }

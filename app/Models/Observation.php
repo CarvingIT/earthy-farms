@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Observation extends Model
 {
-    protected $fillable = ['crop_id', 'observation_date', 'observation'];
+    protected $fillable = ['crop_id', 'observation_date', 'observation', 'photo_path'];
 
     public function crop(): BelongsTo
     {

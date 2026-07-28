@@ -29,6 +29,7 @@ class SupplyController extends Controller
             'input_id' => 'required|exists:inputs,id',
             'quantity' => 'required|numeric|min:0.01',
             'loading_date' => 'required|date',
+            'note' => 'nullable|string',
         ]);
 
         Supply::create($validated);
@@ -50,6 +51,7 @@ class SupplyController extends Controller
             'input_id' => 'required|exists:inputs,id',
             'quantity' => 'required|numeric|min:0.01',
             'loading_date' => 'required|date',
+            'note' => 'nullable|string',
         ]);
 
         $supply->update($validated);

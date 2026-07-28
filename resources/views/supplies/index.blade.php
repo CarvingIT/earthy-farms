@@ -52,6 +52,9 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <span class="font-medium text-neutral-900">{{ $supply->input->name }}</span>
+                                            @if($supply->note)
+                                                <span class="text-xs text-neutral-500 block mt-1 italic max-w-xs truncate" title="{{ $supply->note }}">Note: {{ $supply->note }}</span>
+                                            @endif
                                         </td>
                                         <td class="px-6 py-4">
                                             <span class="font-bold text-neutral-800">{{ $supply->quantity }}</span>
