@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="background-color: #f3f4f6;">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -25,7 +25,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" style="background-color: #f3f4f6; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);">
         <!-- iOS Mobile Page Progress Bar Indicator -->
         <div id="ios-progress" class="fixed top-0 left-0 h-[2px] bg-emerald-500 z-50 transition-all duration-300 w-0" style="display: none;"></div>
 

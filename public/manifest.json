@@ -4,7 +4,7 @@
   "description": "Advanced agricultural management portal for ECSPL Farms.",
   "start_url": "/dashboard",
   "id": "/dashboard",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#f3f4f6",
   "theme_color": "#f3f4f6",
   "orientation": "portrait",
