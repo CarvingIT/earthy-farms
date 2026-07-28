@@ -9,7 +9,7 @@
 
         <!-- PWA Meta Tags -->
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="ECSPL Farms">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="theme-color" content="#ffffff">
@@ -231,7 +231,13 @@
                         if (url.origin !== window.location.origin) return;
                         
                         // Let authentication, logout, or administrative routes reload fully
-                        if (url.pathname.includes('/logout') || url.pathname.includes('/login') || url.pathname.includes('/register')) return;
+                        if (url.pathname.includes('/logout') || url.pathname.includes('/login') || url.pathname.includes('/register')) {
+                            if (window.navigator.standalone) {
+                                e.preventDefault();
+                                window.location.href = link.href;
+                            }
+                            return;
+                        }
 
                         e.preventDefault();
                         navigateTo(link.href);
@@ -268,7 +274,9 @@
                     deferredPrompt = e;
                     
                     // Show standard floating banner after 2.5s if not running in standalone mode
-                    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+                    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                                         window.matchMedia('(display-mode: fullscreen)').matches || 
+                                         window.navigator.standalone;
                     if (!isStandalone && installBanner) {
                         setTimeout(() => {
                             installBanner.style.display = 'flex';
@@ -370,7 +378,9 @@
                 }
 
                 // iOS Safari automatic tooltip trigger (only if not already running in standalone)
-                const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+                const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                                     window.matchMedia('(display-mode: fullscreen)').matches || 
+                                     window.navigator.standalone;
                 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
                 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
                 

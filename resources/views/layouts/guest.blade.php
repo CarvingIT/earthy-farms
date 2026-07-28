@@ -9,7 +9,7 @@
 
         <!-- PWA Meta Tags -->
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="ECSPL Farms">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="theme-color" content="#ffffff">
@@ -41,5 +41,20 @@
 
             {{ $slot }}
         </div>
+        <script>
+            // Keep iOS standalone app navigation inside the app
+            if (('standalone' in window.navigator) && window.navigator.standalone) {
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (link && link.href) {
+                        const url = new URL(link.href);
+                        if (url.origin === window.location.origin && !link.hasAttribute('download') && link.getAttribute('target') !== '_blank') {
+                            e.preventDefault();
+                            window.location.href = link.href;
+                        }
+                    }
+                }, false);
+            }
+        </script>
     </body>
 </html>
