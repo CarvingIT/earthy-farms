@@ -1,3 +1,46 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Premium Native-Like Web App / PWA Enhancements */
+@layer base {
+    html, body {
+        /* Prevent elastic bounce scrolling on the main page wrapper, except within scrollable divs */
+        overscroll-behavior-y: contain;
+        /* Disable text selection across navigation elements for native feel */
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    /* Disable default tap highlight on iOS */
+    a, button, select, input, textarea {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* Adjustments for device notch (safe-area-inset-top) */
+nav.sticky.top-0 {
+    padding-top: env(safe-area-inset-top, 0px);
+    transition: padding-top 0.3s ease;
+}
+
+/* Adjustments for iOS Home Indicator and Gesture Bars */
+@media (display-mode: standalone), (display-mode: fullscreen) {
+    /* Floating bottom dock adjustment */
+    .fixed.bottom-6 {
+        bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    /* Stacking pill menus of the floating dock */
+    .fixed.bottom-\[84px\] {
+        bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
+
+/* Landscape orientation safe areas to protect from side notches */
+@media (orientation: landscape) {
+    body {
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
+    }
+}
+
