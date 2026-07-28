@@ -285,7 +285,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    function initAgrometAlerts() {
         const cacheKey = 'pune_agromet_cache';
         const cacheTimeKey = 'pune_agromet_cache_time';
         const oneHour = 60 * 60 * 1000;
@@ -371,10 +371,10 @@
             const el = document.getElementById('global-notifications');
             if (el && el.__x && el.__x.$data) {
                 el.__x.$data.alertCount = advisories.length;
-            } else if (el) {
+            } else if (el && window.Alpine) {
                 // Fallback for newer Alpine instances or standard binding
                 setTimeout(() => {
-                    const alpineData = Alpine.$data(el);
+                    const alpineData = window.Alpine.initTree ? null : window.Alpine.$data(el);
                     if (alpineData) {
                         alpineData.alertCount = advisories.length;
                     }
@@ -411,5 +411,11 @@
                 list.insertAdjacentHTML('beforeend', html);
             });
         }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAgrometAlerts);
+    } else {
+        initAgrometAlerts();
+    }
 </script>

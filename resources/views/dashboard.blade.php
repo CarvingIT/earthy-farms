@@ -456,7 +456,7 @@
                 </div>
 
                 <!-- Weather Hero Widget (Frosted Glass Apple Weather style) -->
-                <div class="bg-gradient-to-br from-emerald-800/95 to-teal-950/95 text-white rounded-[28px] p-5 shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.4),0_8px_30px_rgba(4,120,87,0.15)] relative overflow-hidden backdrop-blur-md">
+                <div class="bg-gradient-to-br from-emerald-800/95 to-teal-950/95 text-white rounded-[28px] p-5 shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.4),0_8px_30px_rgba(4,120,87,0.15)] relative overflow-hidden backdrop-blur-md animate-slide-up-fade stagger-1">
                     <!-- Subtle background noise/light overlay -->
                     <div class="absolute -right-10 -top-10 w-36 h-36 bg-emerald-400/20 rounded-full blur-2xl"></div>
                     
@@ -521,7 +521,7 @@
                 </div>
 
                 <!-- iOS Control Center Grid Widget -->
-                <div class="bg-white rounded-[28px] border border-neutral-200/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.015)]">
+                <div class="bg-white rounded-[28px] border border-neutral-200/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.015)] animate-slide-up-fade stagger-2">
                     <span class="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 mb-4 block px-1">Control Center</span>
                     <div class="grid grid-cols-4 gap-y-4 gap-x-2">
                         <!-- Action 1: Grower -->
@@ -583,7 +583,7 @@
                 </div>
 
                 <!-- iOS Farms Status (Settings-Style Inset Grouped List) -->
-                <div class="bg-white rounded-[28px] border border-neutral-200/50 p-4 shadow-[0_4px_24px_rgba(0,0,0,0.015)]">
+                <div class="bg-white rounded-[28px] border border-neutral-200/50 p-4 shadow-[0_4px_24px_rgba(0,0,0,0.015)] animate-slide-up-fade stagger-3">
                     <span class="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 mb-2 block px-1.5">Farms Status</span>
                     <div class="flex flex-col">
                         <!-- Grower Inset Row -->
@@ -658,7 +658,7 @@
                 </div>
 
                 <!-- iOS Weather 7-Day Forecast (Apple style grouped card list) -->
-                <div class="bg-white rounded-[28px] border border-neutral-200/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.015)]">
+                <div class="bg-white rounded-[28px] border border-neutral-200/50 p-5 shadow-[0_4px_24px_rgba(0,0,0,0.015)] animate-slide-up-fade stagger-4">
                     <span class="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 mb-3.5 block px-1">Deccan Grid Forecast</span>
                     <div class="divide-y divide-neutral-100 rounded-2xl bg-neutral-50/40 p-1 border border-neutral-200/30" id="forecast-list-mobile">
                         <!-- Loading states -->
@@ -671,7 +671,7 @@
                 </div>
 
                 <!-- iOS Recent Observations (Apple Notes style cards) -->
-                <div class="space-y-3">
+                <div class="space-y-3 animate-slide-up-fade stagger-5">
                     <span class="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 block px-4 mt-8">Recent Field Notes</span>
                     @if($stats['recent_observations']->isEmpty())
                         <div class="py-8 text-center text-xs text-neutral-400 bg-white rounded-2xl border border-neutral-200/50">
@@ -699,7 +699,7 @@
                 </div>
 
                 <!-- iOS Recent Soil Health Reports (Apple Health Diagnostic style cards) -->
-                <div class="space-y-3">
+                <div class="space-y-3 animate-slide-up-fade stagger-5">
                     <span class="text-[10px] font-extrabold uppercase tracking-widest text-neutral-400 block px-4 mt-8">Soil Diagnostic Reports</span>
                     @if($stats['recent_soil_reports']->isEmpty())
                         <div class="py-8 text-center text-xs text-neutral-400 bg-white rounded-2xl border border-neutral-200/50">
@@ -800,7 +800,7 @@
                     }
                 }
 
-                document.addEventListener('DOMContentLoaded', function () {
+                function initDashboardTelemetry() {
                     fetch('https://api.open-meteo.com/v1/forecast?latitude=18.5204&longitude=73.8567&current=temperature_2m,relative_humidity_2m,weather_code&hourly=soil_temperature_0_to_7cm,soil_moisture_0_to_7cm&daily=weather_code,temperature_2m_max,relative_humidity_2m_max,precipitation_sum&timezone=auto&forecast_days=7')
                         .then(response => response.json())
                         .then(data => {
@@ -865,7 +865,13 @@
                                 }
                             });
                         });
-                });
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initDashboardTelemetry);
+                } else {
+                    initDashboardTelemetry();
+                }
 
                 function generateForecast(daily, containerId) {
                     const container = document.getElementById(containerId);
